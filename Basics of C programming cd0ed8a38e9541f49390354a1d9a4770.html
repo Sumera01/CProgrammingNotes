@@ -1,0 +1,688 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Basics of C programming </title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="cd0ed8a3-8e95-41f4-9390-354a1d9a4770" class="page sans"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1577083165633-14ebcdb0f658?ixlib=rb-4.0.3&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" style="object-position:center 50%"/><h1 class="page-title">Basics of C programming </h1><p class="page-description"></p></header><div class="page-body"><div id="03f8187b-0176-4822-a8d2-351308fb0d68" class="column-list"><div id="23d52fad-7d94-4352-98f5-d9a761419732" style="width:81.25%" class="column"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="fb60a1a1-d106-484e-867d-54018f4f8e56"><div style="font-size:1.5em"><span class="icon">📨</span></div><div style="width:100%">Give Feedback at <a href="mailto:sumera.s.shaikh11@gmail.com">sumera.s.shaikh11@gmail.com</a> </div></figure></div><div id="c84a2e10-9082-4601-8ae0-a09b963209e6" style="width:106.25%" class="column"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="ae6299f0-3aae-4430-a2cd-d86682ba38e9"><div style="font-size:1.5em"><span class="icon">📎</span></div><div style="width:100%">Connect on LinkedIn <a href="http://www.linkedin.com/in/sumera-shaikh0110">LinkedIn Sumera</a></div></figure></div></div><ul id="cb1cef5a-27aa-4018-8cd0-f16be49d8967" class="block-color-purple_background toggle"><li><details open=""><summary>Index </summary><ul id="02d4088b-0bda-4cec-860c-d7b062b2e1c0" class="bulleted-list"><li style="list-style-type:disc"><strong>Introduction to C</strong></li></ul><ul id="c5aa0d40-3980-498f-97a3-57b87753d070" class="bulleted-list"><li style="list-style-type:disc"><strong>Basic Concepts</strong></li></ul><ul id="95b54960-7e27-4ae6-928c-b1e482900218" class="bulleted-list"><li style="list-style-type:disc"><strong>Control Structures</strong></li></ul><ul id="1124c19a-cccf-42a1-889a-66d781b6db79" class="bulleted-list"><li style="list-style-type:disc"><strong>Arrays and Strings</strong></li></ul><ul id="c82c2e92-0683-4e45-931a-4b05652d3adc" class="bulleted-list"><li style="list-style-type:disc"><strong>Function</strong></li></ul><ul id="e0ce1edc-563f-4f14-ae72-a0f499126e97" class="bulleted-list"><li style="list-style-type:disc"><strong>Pointers</strong></li></ul><ul id="6def4d29-b041-48ea-a773-16077968177c" class="bulleted-list"><li style="list-style-type:disc"><strong>Structures </strong></li></ul><p id="5332c977-78c7-4216-bda5-160567c1ed99" class="">
+</p></details></li></ul><div id="486d2b08-5af9-4764-b3a4-c8bcdaf9382b" class="column-list"><div id="f6c93026-1e56-468e-8091-ad5f7c8bd7b0" style="width:87.5%" class="column"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="27726155-bd2f-4006-91a2-d46d007f6212"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Highly recommended to be used in Light Mode</div></figure></div><div id="a0334317-79fc-4b06-9f4e-e476daf21440" style="width:99.99999999999999%" class="column"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="3db745ca-ad5b-472c-b021-11a64a5c3922"><div style="font-size:1.5em"><span class="icon">🔑</span></div><div style="width:100%">Happy Learning</div></figure></div></div><blockquote id="1904df82-5d79-4b13-a7db-84f152521afc" class="block-color-blue_background">Chapter 1 <br/><br/><figure id="45e4084e-520c-4c68-9a47-361ffe421f59" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Overview%20of%20Programming%20Languages%2045e4084e520c4c689a47361ffe421f59.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_lightgray.svg"/>Overview of Programming Languages</a></figure><figure id="6e1c5572-4756-4ebf-b72f-4e4fbcafc735" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/History%20and%20Features%20of%20C%206e1c557247564ebfb72f4e4fbcafc735.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_lightgray.svg"/>History and Features of C</a></figure><figure id="8cb10ad0-0d03-42f6-95e0-6d18354594ff" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Structure%20of%20a%20C%20Program%208cb10ad00d0342f695e06d18354594ff.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_lightgray.svg"/>Structure of a C Program</a></figure><figure id="1a5dea59-45ae-4dc4-891f-c2470d3935b3" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Writing,%20Compiling,%20and%20Running%20a%20C%20Program%201a5dea5945ae4dc4891fc2470d3935b3.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_lightgray.svg"/>Writing, Compiling, and Running a C Program</a></figure><figure id="536bd01d-3ae6-4c91-ab55-2c2afd632fa1" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Example%20Program%20Hello,%20World!%20536bd01d3ae64c91ab552c2afd632fa1.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_lightgray.svg"/>Example Program: &quot;Hello, World!</a></figure><figure id="8772755e-5a3e-429e-b78a-e74d894773dc" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Flowcharts%20and%20algorithm%208772755e5a3e429eb78ae74d894773dc.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_lightgray.svg"/>Flowcharts and algorithm</a></figure><figure id="36a824e4-bcde-447c-96bf-2d54c39bc05a" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Exercises%2036a824e4bcde447c96bf2d54c39bc05a.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_lightgray.svg"/>&quot;Exercises</a></figure><p id="d9728308-b720-4469-b7bf-0caecb0ea000" class="">
+</p></blockquote><blockquote id="b7266581-c3ed-4cf1-89b4-3f6e17000d55" class="block-color-yellow_background">Chapter 2<figure id="01446527-a311-472e-a1a3-e2f33dc5cebf" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Variables%20and%20Data%20Types%2001446527a311472ea1a3e2f33dc5cebf.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_blue.svg"/>Variables and Data Types</a></figure><figure id="b3719574-94d4-44ac-9a70-f25f6fa73767" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Constants%20b371957494d444ac9a70f25f6fa73767.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_blue.svg"/>Constants </a></figure><figure id="186831d6-b7cd-4f99-aa1b-6dc0cc8ad3da" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Operators%20and%20Expressions%20186831d6b7cd4f99aa1b6dc0cc8ad3da.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_blue.svg"/>Operators and Expressions</a></figure><figure id="c93f7a10-0731-4a8d-aea2-9c1d9b5b8d88" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Example%20Programs%20c93f7a1007314a8daea29c1d9b5b8d88.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_blue.svg"/>Example Programs</a></figure><figure id="9cff9aab-6e6e-44e5-a075-ea422925bc9b" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Exercises%209cff9aab6e6e44e5a075ea422925bc9b.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_blue.svg"/>Exercises</a></figure></blockquote><blockquote id="72ae5b93-4d40-4cfd-9e91-7f8948402851" class="block-color-teal_background">Chapter 3 <figure id="50970eec-9697-4d0c-ae25-f35b9c432510" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Conditional%20Statements%20if,%20if-else,%20Nested%20if%2050970eec96974d0cae25f35b9c432510.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_red.svg"/>Conditional Statements: if, if-else, Nested if</a></figure><figure id="66c090cc-0449-4e7d-bbd4-5f7d3e2ee6a5" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Switch-Case%20Statements%2066c090cc04494e7dbbd45f7d3e2ee6a5.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_red.svg"/>Switch-Case Statements</a></figure><figure id="5b97149f-f899-4149-9742-8255ad203ee6" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Loops%20for,%20while,%20do-while%205b97149ff899414997428255ad203ee6.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_red.svg"/>Loops: for, while, do-while</a></figure><figure id="2defa57b-58ce-41d6-a9ed-12abe18dbfec" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Break%20and%20Continue%20Statements%202defa57b58ce41d6a9ed12abe18dbfec.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_red.svg"/>Break and Continue Statements</a></figure><figure id="a9ecdaba-2ba2-474b-b63c-781d1ca5b9fd" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Example%20Programs%20a9ecdaba2ba2474bb63c781d1ca5b9fd.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_red.svg"/>Example Programs</a></figure><figure id="6fcfdc6d-2856-4c81-8102-757cd646af88" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Exercises%206fcfdc6d28564c818102757cd646af88.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_red.svg"/>Exercises</a></figure></blockquote><blockquote id="4a001d31-292e-4063-b940-5abf80bedc02" class="block-color-pink_background">Chapter 4<figure id="362a40b3-4d35-47a1-9961-a0fffa98f67e" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Introduction%20to%20Arrays%20362a40b34d3547a19961a0fffa98f67e.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_green.svg"/>Introduction to Arrays</a></figure><figure id="d248d4c6-76d9-49ee-b3c3-c871cbb23704" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/One-dimensional%20and%20Multi-dimensional%20Arrays%20d248d4c676d949eeb3c3c871cbb23704.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_green.svg"/>One-dimensional and Multi-dimensional Arrays</a></figure><figure id="3a91308c-d8ea-44ba-9d3d-1af168daf7ae" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Strings%20in%20C%20Handling%20and%20Functions%203a91308cd8ea44ba9d3d1af168daf7ae.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_green.svg"/>Strings in C: Handling and Functions</a></figure><figure id="4971df5d-8a15-4721-bbe0-55528feaec10" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Example%20Programs%204971df5d8a154721bbe055528feaec10.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_green.svg"/>Example Programs</a></figure><figure id="37bf7783-b3e4-4b9a-bc1b-88b2cd72ca19" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Exercises%2037bf7783b3e44b9abc1b88b2cd72ca19.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_green.svg"/>Exercises</a></figure></blockquote><blockquote id="ba12fd6a-8668-4a01-9a7a-86d85983edda" class="block-color-gray_background">Chapter 5<figure id="03c522c6-377e-4d07-9caf-a5f0f4fd414a" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Introduction%20to%20Functions%2003c522c6377e4d079cafa5f0f4fd414a.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_orange.svg"/>Introduction to Functions</a></figure><figure id="4b82d842-30e6-4039-a5d4-bf41d8dbf866" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Function%20Definition%20and%20Declaration%204b82d84230e64039a5d4bf41d8dbf866.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_orange.svg"/>Function Definition and Declaration</a></figure><figure id="8fe79f02-fc44-48e1-948a-252f590a2051" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Function%20Arguments%20and%20Return%20Values%208fe79f02fc4448e1948a252f590a2051.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_orange.svg"/>Function Arguments and Return Values</a></figure><figure id="1bd82158-206e-450e-af8c-b04763892ce1" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Global%20Variables%20and%20Local%20Variables%201bd82158206e450eaf8cb04763892ce1.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_orange.svg"/>Global Variables and Local Variables</a></figure><figure id="270a6171-6dd0-49b1-ae0c-d2b1db290e76" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Recursive%20Functions%20270a61716dd049b1ae0cd2b1db290e76.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_orange.svg"/> Recursive Functions</a></figure><figure id="425f85a1-c910-4110-84d9-ec62b11a7368" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Example%20Programs%20425f85a1c910411084d9ec62b11a7368.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_orange.svg"/>Example Programs</a></figure><figure id="e1acf08e-8f93-441b-9be5-511b6652b7e0" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Exercises%20e1acf08e8f93441b9be5511b6652b7e0.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_orange.svg"/>Exercises</a></figure><p id="0f6f953f-4a41-4833-b5bb-93d638e2c3dc" class="">
+</p></blockquote><blockquote id="3e1590b2-da1e-4da9-956a-1da2069eb85b" class="block-color-brown_background">Chapter 6<figure id="20a66d8d-7ee8-4423-aec9-fe571ac088b9" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Introduction%20to%20Pointers%2020a66d8d7ee84423aec9fe571ac088b9.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_brown.svg"/>Introduction to Pointers</a></figure><figure id="b637a0c1-8383-4059-9d6c-c5318973081a" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Pointer%20Declaration%20and%20Initialization%20b637a0c1838340599d6cc5318973081a.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_brown.svg"/>Pointer Declaration and Initialization</a></figure><figure id="0d400fbb-dd20-4de1-9a4c-5eba6a8a23a3" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Pointer%20Arithmetic%200d400fbbdd204de19a4c5eba6a8a23a3.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_brown.svg"/>Pointer Arithmetic</a></figure><figure id="56a08817-f710-4cbc-88d0-77bc972cbb05" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Pointers%20and%20Arrays%2056a08817f7104cbc88d077bc972cbb05.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_brown.svg"/>Pointers and Arrays</a></figure><figure id="4cf3d987-b587-401b-8e1f-fb978b509622" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Example%20Programs%204cf3d987b587401b8e1ffb978b509622.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_brown.svg"/>Example Programs</a></figure><figure id="1a4f3a72-8312-4817-914a-e370662b015a" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Exercises%201a4f3a7283124817914ae370662b015a.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_brown.svg"/>Exercises</a></figure></blockquote><blockquote id="fd1ee121-a5da-49b1-a50b-6cbc331c3702" class="block-color-red_background">Chapter 7<figure id="76b41706-340c-4e5d-9df0-80cc3e888a0f" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Defining%20and%20Using%20Structures%2076b41706340c4e5d9df080cc3e888a0f.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_pink.svg"/>Defining and Using Structures</a></figure><figure id="496945d6-4bc0-47ad-8157-0af5398cf857" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Structure%20Declaration%20and%20Initialization%20496945d64bc047ad81570af5398cf857.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_pink.svg"/>Structure Declaration and Initialization</a></figure><figure id="50c59b76-046a-4b4f-9df3-86c344c2cc15" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Accessing%20Structure%20Members%2050c59b76046a4b4f9df386c344c2cc15.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_pink.svg"/>Accessing Structure Members</a></figure><figure id="143a0b15-b055-4fbc-a77f-78e2f1d7229b" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Example%20Programs%20143a0b15b0554fbca77f78e2f1d7229b.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_pink.svg"/>Example Programs</a></figure><figure id="103e2b5e-3722-4d2d-b148-c0840000b727" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Exercises%20103e2b5e37224d2db148c0840000b727.html"><img class="icon" src="https://www.notion.so/icons/arrow-right_pink.svg"/>Exercises</a></figure></blockquote><blockquote id="03d70f58-a206-42e4-bbe2-7dae7073747b" class="block-color-purple_background">Well Done</blockquote><blockquote id="18f711cf-d03d-803c-8a31-fca8b69ceb50" class="block-color-purple_background">Want to Revise C programs <figure id="c1fc3184-028c-4efb-9a58-f4eb41d27f89" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Hello%20World%20Program%20c1fc3184028c4efb9a58f4eb41d27f89.html"><span class="icon">🌏</span>Hello World Program</a></figure><figure id="b0bc2618-3aa0-4b0c-b95c-5d3e7e8700d2" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Add%20Two%20Numbers%20b0bc26183aa04b0cb95c5d3e7e8700d2.html"><span class="icon">➕</span>Program to Add Two Numbers</a></figure><figure id="130f09e8-4d50-4153-8945-72f52aa8d429" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Swap%20Two%20Numbers%20130f09e84d504153894572f52aa8d429.html"><span class="icon">🔁</span>Program to Swap Two Numbers</a></figure><figure id="37afd222-731d-466b-8c30-5ad4b79d1fbb" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Find%20the%20Largest%20Smallest%20of%20Three%20Numb%2037afd222731d466b8c305ad4b79d1fbb.html"><span class="icon">▶️</span>Program to Find the Largest/Smallest of Three Numbers</a></figure><figure id="3d581b00-d7b3-4a7b-855e-2a421e557f0c" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Check%20Even%20or%20Odd%203d581b00d7b34a7b855e2a421e557f0c.html"><span class="icon">🙃</span>Program to Check Even or Odd</a></figure><figure id="43beb3fb-a333-4696-aa30-c9fc206bdcb3" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Check%20Leap%20Year%2043beb3fba3334696aa30c9fc206bdcb3.html"><span class="icon">🥱</span>Program to Check Leap Year</a></figure><figure id="4a01720e-eab1-4205-83c0-76af57bbe201" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Find%20Factorial%20of%20a%20Number%204a01720eeab1420583c076af57bbe201.html"><span class="icon">⬆️</span>Program to Find Factorial of a Number</a></figure><figure id="9514033b-f59f-428b-9df0-7c2f7a734ca3" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Check%20Prime%20Number%209514033bf59f428b9df07c2f7a734ca3.html"><span class="icon">3️⃣</span>Program to Check Prime Number</a></figure><figure id="b5b46f7b-fffe-4cb3-89b7-3ac02aa2b871" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Print%20Prime%20Numbers%20till%20n%20b5b46f7bfffe4cb389b73ac02aa2b871.html"><span class="icon">🔤</span>Program to Print Prime Numbers till n.</a></figure><figure id="210615f2-3087-4678-b4d3-b1df5cfcbbf9" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Print%20all%20Alphabets%20a%20to%20z%20(Lower%20Case)%20210615f230874678b4d3b1df5cfcbbf9.html"><span class="icon">🆒</span>Program  to Print all Alphabets a to z (Lower Case) Using loop</a></figure><figure id="0889a7d5-146c-408e-924a-ef5fa78a8082" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Generate%20Fibonacci%20Series%200889a7d5146c408e924aef5fa78a8082.html"><span class="icon">➿</span>Program to Generate Fibonacci Series</a></figure><figure id="c0fd91a7-253f-43ba-a838-ee58b46a06f2" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Reverse%20a%20Number%20c0fd91a7253f43baa838ee58b46a06f2.html"><span class="icon">⬅️</span>Program to Reverse a Number</a></figure><figure id="47cc9e71-acc9-4906-91fd-1cea0f1f514d" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Check%20Palindrome%20Number%2047cc9e71acc9490691fd1cea0f1f514d.html"><span class="icon">🙃</span>Program to Check Palindrome Number</a></figure><figure id="76fe1149-f085-43da-89c5-42a4c1602494" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Find%20the%20Sum%20of%20Digits%20of%20a%20Number%2076fe1149f08543da89c542a4c1602494.html"><span class="icon">💠</span>Program to Find the Sum of Digits of a Number</a></figure><figure id="85fcfc37-d924-4253-8451-868a1335e2c2" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Print%20a%20Multiplication%20Table%2085fcfc37d92442538451868a1335e2c2.html"><span class="icon">🏓</span>Program to Print a Multiplication Table</a></figure><figure id="81a2789e-f89d-4397-9e87-314dfb9f7350" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Print%20All%20ASCII%20Values%2081a2789ef89d43979e87314dfb9f7350.html"><span class="icon">⚰️</span>Program to Print All ASCII Values</a></figure><figure id="01dbba3f-91b8-430f-8a37-3ff2a4fa869f" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Convert%20Fahrenheit%20to%20Celsius%2001dbba3f91b8430f8a373ff2a4fa869f.html"><span class="icon">🌫️</span>Program to Convert Fahrenheit to Celsius</a></figure><figure id="4abbdb45-bb1d-4fce-8a00-1f70a54a822c" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Convert%20Celsius%20to%20Fahrenheit%204abbdb45bb1d4fce8a001f70a54a822c.html"><span class="icon">☂️</span>Program to Convert Celsius to Fahrenheit</a></figure><figure id="6b7de37b-385f-4582-bdb8-262c960c3e28" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Calculate%20Bank%20Interest%206b7de37b385f4582bdb8262c960c3e28.html"><span class="icon">💳</span>Program to Calculate Bank Interest</a></figure><figure id="92e1e0b6-f5e1-4454-a47a-58fbfe0118e6" class="link-to-page"><a href="Basics%20of%20C%20programming%20cd0ed8a38e9541f49390354a1d9a4770/Program%20to%20Find%20the%20Sum%20of%20First%20N%20Natural%20Numbers%2092e1e0b6f5e14454a47a58fbfe0118e6.html"><span class="icon">🙃</span>Program to Find the Sum of First N Natural Numbers</a></figure></blockquote><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="a3c6490c-37c2-4b97-956e-769c6e554d1a"><div style="font-size:1.5em"><img class="icon" src="https://www.notion.so/icons/branch-create_lightgray.svg"/></div><div style="width:100%"><strong>Thank you for stopping by!</strong>😊<p id="07d65cad-5618-4e06-9e55-a07f34967c2f" class="">I’d love to hear your feedback and connect on <a href="http://www.linkedin.com/in/sumera-shaikh0110">LinkedIn Sumera</a> to stay in touch! 💼✨<br/>Made by : Sumera S Shaikh <br/></p></div></figure><p id="be4cea2b-1621-4023-ba05-7b1c217493dc" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
